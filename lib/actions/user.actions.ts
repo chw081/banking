@@ -1,7 +1,7 @@
 'use server';
 
 import { ID } from "node-appwrite";
-import { createAdminClient, createSessionClient } from "./appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { encryptId, extractCustomerIdFromUrl, parseStringify } from "@/lib/utils";
 import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
@@ -50,7 +50,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
         if (!dwollaCustomerUrl) throw new Error('Error creating Dwolla customer')
 
-        const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl)
+        const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
 
         const newUser = await database.createDocument(
             DATABASE_ID!,
@@ -85,6 +85,7 @@ export async function getLoggedInUser() {
     try {
       const { account } = await createSessionClient();
       const user = await account.get();
+
       return parseStringify(user);
     } catch (error) {
       return null;
@@ -150,7 +151,7 @@ export const createBankAccount = async ({
 
         return parseStringify(bankAccount);
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -196,12 +197,12 @@ export const exchangePublicToken = async ({
 
         // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and shareableId ID
         await createBankAccount({
-        userId: user.$id,
-        bankId: itemId,
-        accountId: accountData.account_id,
-        accessToken,
-        fundingSourceUrl,
-        shareableId: encryptId(accountData.account_id),
+            userId: user.$id,
+            bankId: itemId,
+            accountId: accountData.account_id,
+            accessToken,
+            fundingSourceUrl,
+            shareableId: encryptId(accountData.account_id),
         });
 
         // Revalidate the path to reflect the changes
@@ -209,7 +210,7 @@ export const exchangePublicToken = async ({
 
         // Return a success message
         return parseStringify({
-        publicTokenExchange: "complete",
+            publicTokenExchange: "complete",
         });
     } catch (error) {
         console.error("An error occurred while creating exchanging token:", error);

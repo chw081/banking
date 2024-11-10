@@ -1,9 +1,12 @@
-"use client";
+'use client';
 
+import Image from 'next/image'
+import Link from 'next/link'
+import React, { useState } from 'react'
+
+import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -15,16 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
-import Link from 'next/link'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import CustomInput from "./CustomInput";
-import { authFormSchema } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
-import PlaidLink from "./PlaidLink";
+import CustomInput from './CustomInput';
+import { authFormSchema } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
+import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
@@ -44,7 +43,8 @@ const AuthForm = ({ type }: { type: string }) => {
     
     // 2. Define a submit handler.
     const onSubmit = async(data: z.infer<typeof formSchema>) => {
-        setIsLoading(true)
+        setIsLoading(true);
+
         try {
             // Sign up with Appwrite & create plaid link token
 
@@ -61,6 +61,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     email: data.email,
                     password: data.password
                 }
+
                 const newUser = await signUp(userData);
 
                 setUser(newUser);
@@ -93,6 +94,7 @@ const AuthForm = ({ type }: { type: string }) => {
                 />
                 <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Horizon</h1>
             </Link>
+
             <div className="flex flex-col gap-1 md:gap-3">
                 <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
                     {user
@@ -145,8 +147,7 @@ const AuthForm = ({ type }: { type: string }) => {
                             <Button type="submit" disabled={isLoading} className="form-btn">
                                 {isLoading ? (
                                     <>
-                                        <Loader2 size={20} 
-                                        className="animate-spin" /> & 
+                                        <Loader2 size={20} className="animate-spin" /> & 
                                         Loading...
                                     </>
                                 ) : type === 'sign-in' 
