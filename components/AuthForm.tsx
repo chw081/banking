@@ -18,18 +18,28 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+<<<<<<< HEAD
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
+=======
+
+import Link from 'next/link'
+import Image from 'next/image'
+import React, { useState } from 'react'
+import CustomInput from "./CustomInput";
+import { authFormSchema } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+>>>>>>> parent of d4e47f2 (Sign-in and Sign-up functions)
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
     const formSchema = authFormSchema(type);
 
     // 1. Define your form.
@@ -64,7 +74,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
                 const newUser = await signUp(userData);
 
-                setUser(newUser);
+                // setUser(newUser);
             }
 
             if (type === 'sign-in') {
@@ -73,7 +83,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     password: data.password,
                 })
 
-                if (response) router.push('/')
+                // if (response) router.push('/')
             }
         } catch (error) {
             console.log(error);
