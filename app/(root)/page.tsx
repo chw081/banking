@@ -22,7 +22,7 @@ const Home = async ({ searchParams: { id, page }}: SearchParamProps) => {
   console.log({
     accountsData,
     account
-  })
+  });
 
   return (
     <section className="home">
